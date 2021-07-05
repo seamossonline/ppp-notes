@@ -1,15 +1,28 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
+
 import Data.List ( sort, delete )
 import GHC.Float
 --import Data.Number
 
+
 -- Conditionals
-validateAndDivvy :: Integral txPayload => txPayload -> [Char]
-validateAndDivvy payAmount
-   | signum(payAmount) == -1 = "Payment amount can't be negative, sorry!"
+vD :: Integral txPay => txPay -> [Char]
+vD payAmount
+   | payAmount < 0 = "Cannot be negative."
    | payAmount == 100 = "Received amount equal to NFT price. Calling salesDivvy function..."
-   | otherwise = "Transaction failed: Funds received do not match the price for requested item."
---validateAndDivvy payAmount = if payAmount == 100 then "Funds verified - allocating sales funds..." else "Sorry - you are too broke."
+   | payAmount < 100 && payAmount > 0 = "Too little."
+   | otherwise = "Too much."
+--vD payAmount = if payAmount == 100 then "Funds verified - allocating sales funds..." else "Sorry - you are too broke."
 -- Check if the ADA amount in the transaction matches the asking price of the NFT
+
+
+
+
+
+
+
+
+
 
 
 --Switch Statements
@@ -37,16 +50,22 @@ catLab c d = concat[c,d]
 
 -- Number types affecting memory and rounding errors
 squareFloat :: Float -> Float
-squareFloat a = a / pi
+squareFloat a = a + 1
+squareFloat b = b / pi
 -- other technique
 squareDouble :: Double -> Double
-squareDouble b = b + 1
+squareDouble b = b + 3
 -- other technique
-squareFuck :: Float -> Double
-squareFuck e = squareDouble (float2Double (squareFloat e))
+squareFFF :: Float -> Double
+squareFFF e = squareDouble (float2Double (squareFloat e))
 
 
-
+testing :: Float -> Float
+testing a = b where
+  b = a * 2
+main = do
+  putStrLn "test"
+  print (testing (2))
 
 -- Passing strings
 greet :: String -> String
@@ -84,16 +103,16 @@ readInt a = read a
 
 
 
--- Boilerplate code for all Plutus smart contracts
-{-# INLINABLE mkValidator #-}
-mkValidator :: Data -> Data -> Data -> ()
-mkValidator _ _ _ = ()
+ -- Boilerplate code for all Plutus smart contracts
+ -- {-# INLINABLE mkValidator #-}
+ -- mkValidator :: Data -> Data -> Data -> ()
+ -- mkValidator _ _ _ = ()
 
-validator :: Validator
-validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||])
+ -- validator :: Validator
+-- validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||])
 
-valHash :: Ledger.ValidatorHash
-valHash = Scripts.validatorHash validator
+ -- valHash :: Ledger.ValidatorHash
+ -- valHash = Scripts.validatorHash validator
 
-scrAddress :: Ledger.Address
-scrAddress = ScriptAddress valHash
+-- scrAddress :: Ledger.Address
+-- scrAddress = ScriptAddress valHash
